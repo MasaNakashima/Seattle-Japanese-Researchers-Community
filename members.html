@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=1.1" />
 </head>
 
 <body>
@@ -47,8 +47,37 @@
             <section class="section">
                 <div class="container">
                     <div class="filter-bar">
-                        <input type="text" id="member-search" placeholder="Search researchers, topics, or labs..."
+                        <input type="text" id="member-search" placeholder="Search by name, research topic, or lab..."
                             class="search-input">
+
+                        <div class="sort-container">
+                            <label for="member-sort">Sort by:</label>
+                            <select id="member-sort" class="sort-select">
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="lab-asc">Lab Location (A-Z)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="active-tag-container" class="active-tag-container" style="display: none;">
+                        <span class="active-tag-label">Filtering by:</span>
+                        <div id="active-tag-list" class="active-tag-list"></div>
+                        <button id="clear-tag-filter" class="clear-filter-btn">Clear All</button>
+                    </div>
+
+                    <div class="cloud-section">
+                        <h3 class="cloud-title">Research Areas</h3>
+                        <div id="tag-cloud" class="tag-cloud">
+                            <!-- Unique tags will be injected here by main.js -->
+                        </div>
+                    </div>
+
+                    <div class="cloud-section">
+                        <h3 class="cloud-title">Professional Titles</h3>
+                        <div id="title-cloud" class="tag-cloud">
+                            <!-- Unique titles will be injected here by main.js -->
+                        </div>
                     </div>
 
                     <div id="members-grid" class="members-grid">
@@ -64,7 +93,18 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="main.js"></script>
+
+    <!-- Email Modal -->
+    <div id="email-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body-content">
+                <!-- Content injected by main.js -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js?v=1.1"></script>
 </body>
 
 </html>

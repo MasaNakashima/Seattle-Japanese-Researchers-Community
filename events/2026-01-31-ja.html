@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年 第一回シアトル日本人研究者の会 レポート</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="../style.css" />
+
+    <!-- Tailwind for the report content layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        primary: '#38bdf8',
+                        secondary: '#818cf8',
+                        accent: '#f472b6',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glassmorphism overrides for the report cards */
+        .report-content-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+        }
+
+        .tab-btn {
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            border-color: currentColor;
+            background-color: rgba(255, 255, 255, 0.05);
+            font-weight: 700;
+        }
+
+        /* Nav links specifically for this page due to depth */
+        .header .nav a:not(.btn) {
+            color: #94a3b8;
+        }
+
+        .header .nav a:not(.btn):hover {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
+
+    <header class="header">
+        <div class="container">
+            <a href="../index_ja.html" class="logo">SJRC</a>
+            <nav class="nav">
+                <a href="../index_ja.html#about">概要</a>
+                <a href="../index_ja.html#activities">活動内容</a>
+                <a href="../reports_ja.html" class="active">活動報告</a>
+                <a href="../members_ja.html">メンバー</a>
+                <a href="../knowledge_ja.html">ナレッジ</a>
+                <div class="lang-switch">
+                    <a href="#" class="lang-link">EN</a> | <span class="lang-active">JA</span>
+                </div>
+                <a href="https://www.facebook.com/groups/3358285694229446/" target="_blank"
+                    class="btn btn-primary">コミュニティに参加</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 min-h-screen">
+
+        <!-- Header / Introduction -->
+        <div class="mb-12 text-center fade-in">
+            <h1
+                class="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                2026年 第一回シアトル日本人研究者の会
+            </h1>
+            <p class="text-xl text-slate-400 max-w-3xl mx-auto">
+                ミクロの進化からマクロの波動まで：科学が挑む不確実性
+            </p>
+
+            <div class="flex justify-center flex-wrap gap-4 mt-8">
+                <button id="btn-micro" onclick="switchTab('micro')"
+                    class="px-6 py-3 rounded-xl transition-all duration-300 hover:bg-emerald-900/30 text-emerald-400 border-emerald-500/50 tab-btn active">
+                    <span>🦠 細菌学：緑膿菌の進化</span>
+                </button>
+                <button id="btn-macro" onclick="switchTab('macro')"
+                    class="px-6 py-3 rounded-xl transition-all duration-300 hover:bg-cyan-900/30 text-slate-400 border-transparent tab-btn">
+                    <span>🌊 防災工学：津波の物理</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- MICROBIOLOGY SECTION -->
+        <section id="micro-section" class="fade-in">
+            <!-- Intro Block -->
+            <div class="report-content-card p-8 mb-8 border-l-8 border-emerald-500/50">
+                <h2 class="text-3xl font-bold text-white mb-4">緑膿菌の生体内における適応進化</h2>
+                <div class="text-lg text-slate-300 leading-relaxed mb-6">
+                    <p class="mb-4">
+                        <a href="../members_ja.html?search=Naoya Nishiyama"
+                            class="text-emerald-400 font-bold hover:underline">西山 直哉 氏</a>（ワシントン大学 /
+                        感染症内科医）による発表セッションです。
+                    </p>
+                    <p>
+                        私たちの肺を守る防御機構と、それを突破して「進化」する緑膿菌（*Pseudomonas aeruginosa*）のメカニズムを解説。
+                        環境中では弱い菌が、なぜ体内では難治性病原体へと変貌するのか、その劇的な性質の変化を可視化します。
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <span
+                        class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20">気道防御</span>
+                    <span
+                        class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20">バイオフィルム</span>
+                    <span
+                        class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20">適応進化</span>
+                    <span
+                        class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/20">多剤耐性</span>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Visualization -->
+                <div class="report-content-card p-6">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <span class="text-2xl">⚡</span> 進化のトレードオフ：野生型 vs 適応型
+                    </h3>
+
+                    <div class="flex justify-center gap-4 mb-8">
+                        <button onclick="updateMicroChart('wild')"
+                            class="px-5 py-2 bg-emerald-500/20 text-emerald-400 rounded-full hover:bg-emerald-500/30 text-sm font-bold transition border border-emerald-500/30">
+                            野生型 (初期感染)
+                        </button>
+                        <button onclick="updateMicroChart('adapted')"
+                            class="px-5 py-2 bg-amber-500/20 text-amber-400 rounded-full hover:bg-amber-500/30 text-sm font-bold transition border border-amber-500/30">
+                            適応型 (慢性感染)
+                        </button>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="bacteriaRadarChart"></canvas>
+                    </div>
+
+                    <div class="mt-8 bg-slate-900/50 p-5 rounded-2xl border border-white/5 text-sm text-slate-300">
+                        <p id="bacteria-desc">
+                            <strong>野生型：</strong> 鞭毛（フラジェラ）を使い活発に運動し、高い病原性を示しますが、免疫による攻撃を受けやすい状態です。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Info Column -->
+                <div class="space-y-6">
+                    <div class="report-content-card p-6">
+                        <h3 class="text-xl font-bold text-white mb-6">人体の防御 vs 菌の戦略</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-emerald-500/50 transition cursor-pointer"
+                                onclick="toggleDetail('defense-detail')">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-slate-200">🛡️ 宿主防御：線毛クリアランス</h4>
+                                    <span class="text-slate-500 text-xs">CLICK</span>
+                                </div>
+                                <div id="defense-detail"
+                                    class="hidden mt-4 text-sm text-slate-400 bg-black/20 p-4 rounded-xl">
+                                    気管支には「線毛（Cilia）」があり、1秒間に十数回拍動して粘液と共に異物を排出します。喫煙や加齢でこれが破綻すると、菌が肺深部に到達しやすくなります。
+                                </div>
+                            </div>
+
+                            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-emerald-500/50 transition cursor-pointer"
+                                onclick="toggleDetail('biofilm-detail')">
+                                <div class="flex justify-between items-center">
+                                    <h4 class="font-bold text-slate-200">🏰 菌の要塞：バイオフィルム</h4>
+                                    <span class="text-slate-500 text-xs">CLICK</span>
+                                </div>
+                                <div id="biofilm-detail"
+                                    class="hidden mt-4 text-sm text-slate-400 bg-black/20 p-4 rounded-xl">
+                                    菌体外多糖類（EPS）やDNAで構成される抗生物質の届かないネバネバした膜です。まさに菌たちの「要塞」として機能します。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-gradient-to-br from-emerald-900/40 to-emerald-800/20 border border-emerald-500/20 rounded-2xl p-6">
+                        <h4 class="text-emerald-400 font-bold mb-3 text-lg">次世代の治療戦略</h4>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            単に殺菌するだけでなく、菌の<strong>「進化の方向」</strong>を予測・制御する治療法が求められています。弱毒化を誘導する新たなアプローチが研究されています。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MACRO / TSUNAMI SECTION -->
+        <section id="macro-section" class="hidden fade-in">
+            <!-- Intro Block -->
+            <div class="report-content-card p-8 mb-8 border-l-8 border-cyan-500/50">
+                <h2 class="text-3xl font-bold text-white mb-4">津波物理学と確率論的防災戦略</h2>
+                <div class="text-lg text-slate-300 leading-relaxed mb-6">
+                    <p class="mb-4">
+                        <a href="../members_ja.html?search=Takuya Miyashita"
+                            class="text-cyan-400 font-bold hover:underline">宮下 卓也 氏</a>（京都大学 / NOAA）による発表セッションです。
+                    </p>
+                    <p>
+                        2024年能登半島地震の調査から得られた教訓と、津波の物理的特性を解説。
+                        水深によって劇的に変化する速度のメカニズムと、最新の不確実性評価アプローチを紹介します。
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <span
+                        class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/20">長波理論</span>
+                    <span
+                        class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/20">浅水変形</span>
+                    <span
+                        class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/20">不確実性評価</span>
+                    <span
+                        class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/20">L1/L2防災</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- Visualization: Physics Calculator -->
+                <div class="report-content-card p-6">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <span class="text-2xl">🌊</span> 物理法則：深さと速度の関係
+                    </h3>
+
+                    <div class="mb-8 p-6 bg-cyan-900/20 rounded-2xl border border-cyan-500/20">
+                        <label for="depthSlider" class="block text-sm font-bold text-cyan-400 mb-4">
+                            水深: <span id="depthVal" class="text-2xl text-white ml-2">4000</span> m
+                        </label>
+                        <input type="range" min="10" max="6000" value="4000" step="10" id="depthSlider"
+                            class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                        <div class="flex justify-between text-xs text-slate-500 mt-2">
+                            <span>沿岸 (10m)</span>
+                            <span>深海 (6000m)</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-around items-center mb-8 p-4 bg-black/20 rounded-2xl">
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">計算速度</p>
+                            <p class="text-3xl font-black text-white" id="calcSpeed">713 km/h</p>
+                        </div>
+                        <div class="text-3xl text-slate-700">|</div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest mb-1">同等の乗り物</p>
+                            <p class="text-xl font-bold text-cyan-400" id="analogyObj">✈️ ジェット機</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="tsunamiSpeedChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Column -->
+                <div class="space-y-6">
+                    <div class="report-content-card p-6">
+                        <h3 class="text-xl font-bold text-white mb-6">不確実性への戦略</h3>
+                        <div class="space-y-6">
+                            <div class="border-l-4 border-cyan-500 pl-4">
+                                <h4 class="font-bold text-slate-200 mb-2">決定論から確率論へ</h4>
+                                <p class="text-sm text-slate-400 leading-relaxed">
+                                    建物や土砂が複雑に絡み合う沿岸部では、わずかな条件差で結果が激変します。最新の「PTHA（確率論的津波ハザード評価）」は、数万通りのシナリオから確率的な幅でリスクを捉えます。
+                                </p>
+                            </div>
+
+                            <div class="bg-white/5 rounded-2xl p-5 border border-white/5">
+                                <h4 class="font-bold text-slate-200 mb-3">日本の防災レベル (L1/L2)</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                                        <p class="text-xs font-bold text-emerald-400 mb-1">レベル1 (L1)</p>
+                                        <p class="text-[10px] text-slate-300">防潮堤でハード的に完全に防ぐ設計レベル。</p>
+                                    </div>
+                                    <div class="p-3 bg-rose-500/10 rounded-xl border border-rose-500/20">
+                                        <p class="text-xs font-bold text-rose-400 mb-1">レベル2 (L2)</p>
+                                        <p class="text-[10px] text-slate-300">避難を中心としたソフト対策で命を守るレベル。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/50 rounded-2xl p-6 border border-white/10 italic">
+                        <p class="text-sm text-slate-400">
+                            「能登半島地震では、最大4mの地盤隆起により本来津波が来る場所が陸地化するという特異な現象も確認されました。迅速なデータ収集と分析が、次なる防災の鍵となります。」
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 border-t border-white/5 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold text-white mb-6">共通のテーマ：不確実性への挑戦</h3>
+            <p class="max-w-2xl mx-auto mb-10 text-slate-400 leading-relaxed">
+                ミクロの細菌も、マクロの津波も、完全な予測や制御は困難です。
+                しかし、進化の予測や確率論的評価といった科学的アプローチによって、不確実性を管理し、リスクを最小化する挑戦が続いています。
+            </p>
+            <div class="text-xs text-slate-600 tracking-widest uppercase">
+                &copy; 2026 Seattle Japanese Researchers' Community
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let currentTab = 'micro';
+        let bacteriaChart = null;
+        let tsunamiChart = null;
+
+        // Data: Bacteria Traits
+        const bacteriaData = {
+            wild: {
+                label: '野生型 (初期感染)',
+                data: [90, 80, 20, 10, 80],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.2)'
+            },
+            adapted: {
+                label: '適応型 (慢性感染)',
+                data: [10, 30, 95, 90, 20],
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.2)'
+            }
+        };
+
+        // Data: Tsunami Physics (g = 9.8)
+        function calculateTsunamiSpeed(depth) {
+            const g = 9.8;
+            const v_ms = Math.sqrt(g * depth);
+            const v_kmh = v_ms * 3.6;
+            return v_kmh;
+        }
+
+        const depthPoints = [10, 50, 100, 200, 500, 1000, 2000, 4000, 6000];
+        const speedPoints = depthPoints.map(d => calculateTsunamiSpeed(d));
+
+        // Initialization
+        window.addEventListener('load', () => {
+            initBacteriaChart();
+            initTsunamiChart();
+            updateSpeedCalc(4000);
+
+            // Handle cross-page links
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab');
+            if (tab) switchTab(tab);
+        });
+
+        // Tab Switching Logic
+        function switchTab(tab) {
+            currentTab = tab;
+            const microSection = document.getElementById('micro-section');
+            const macroSection = document.getElementById('macro-section');
+            const btnMicro = document.getElementById('btn-micro');
+            const btnMacro = document.getElementById('btn-macro');
+
+            if (tab === 'micro') {
+                microSection.classList.remove('hidden');
+                macroSection.classList.add('hidden');
+                btnMicro.classList.add('active', 'text-emerald-400');
+                btnMicro.classList.remove('text-slate-400');
+                btnMacro.classList.add('text-slate-400');
+                btnMacro.classList.remove('active', 'text-cyan-400');
+            } else {
+                microSection.classList.add('hidden');
+                macroSection.classList.remove('hidden');
+                btnMacro.classList.add('active', 'text-cyan-400');
+                btnMacro.classList.remove('text-slate-400');
+                btnMicro.classList.add('text-slate-400');
+                btnMicro.classList.remove('active', 'text-emerald-400');
+            }
+        }
+
+        // Bacteria Radar Chart
+        function initBacteriaChart() {
+            const ctx = document.getElementById('bacteriaRadarChart').getContext('2d');
+            bacteriaChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['運動性', '増殖速度', '薬剤耐性', 'バイオフィルム', '毒素産生'],
+                    datasets: [{
+                        label: bacteriaData.wild.label,
+                        data: bacteriaData.wild.data,
+                        borderColor: bacteriaData.wild.borderColor,
+                        backgroundColor: bacteriaData.wild.backgroundColor,
+                        borderWidth: 2,
+                        pointBackgroundColor: bacteriaData.wild.borderColor,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: {
+                                font: { size: 12, family: 'Noto Sans JP' },
+                                color: '#94a3b8'
+                            },
+                            ticks: { display: false },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#f8fafc', font: { family: 'Noto Sans JP' } } }
+                    }
+                }
+            });
+        }
+
+        function updateMicroChart(type) {
+            const data = bacteriaData[type];
+            bacteriaChart.data.datasets[0].label = data.label;
+            bacteriaChart.data.datasets[0].data = data.data;
+            bacteriaChart.data.datasets[0].borderColor = data.borderColor;
+            bacteriaChart.data.datasets[0].backgroundColor = data.backgroundColor;
+            bacteriaChart.data.datasets[0].pointBackgroundColor = data.borderColor;
+            bacteriaChart.update();
+
+            const desc = document.getElementById('bacteria-desc');
+            if (type === 'wild') {
+                desc.innerHTML = "<strong>野生型：</strong> 鞭毛（フラジェラ）を使い活発に運動し、高い病原性を示しますが、免疫による攻撃を受けやすい状態です。";
+            } else {
+                desc.innerHTML = "<strong>適応型：</strong> 運動性を捨て、バイオフィルム（要塞）に引きこもることで、抗菌薬や免疫攻撃に耐える「省エネ・防御特化」モードです。";
+            }
+        }
+
+        // Tsunami Speed Chart
+        function initTsunamiChart() {
+            const ctx = document.getElementById('tsunamiSpeedChart').getContext('2d');
+            tsunamiChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: depthPoints,
+                    datasets: [{
+                        label: '伝播速度 (km/h)',
+                        data: speedPoints,
+                        borderColor: '#22d3ee',
+                        backgroundColor: 'rgba(34, 211, 238, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                    },
+                    {
+                        label: '現在値',
+                        data: [],
+                        pointRadius: 8,
+                        pointBackgroundColor: '#f43f5e',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        showLine: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'logarithmic',
+                            title: { display: true, text: '水深 (m)', color: '#64748b' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#64748b' }
+                        },
+                        y: {
+                            title: { display: true, text: '速度 (km/h)', color: '#64748b' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#64748b' },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#f8fafc' } }
+                    }
+                }
+            });
+        }
+
+        const depthSlider = document.getElementById('depthSlider');
+        depthSlider.addEventListener('input', (e) => {
+            updateSpeedCalc(parseInt(e.target.value));
+        });
+
+        function updateSpeedCalc(depth) {
+            const speed = calculateTsunamiSpeed(depth);
+            document.getElementById('depthVal').innerText = depth;
+            document.getElementById('calcSpeed').innerText = speed.toFixed(0) + ' km/h';
+
+            let analogy = "";
+            if (speed > 800) analogy = "✈️ ジェット機以上";
+            else if (speed > 500) analogy = "✈️ ジェット機 (巡航)";
+            else if (speed > 250) analogy = "🚅 新幹線";
+            else if (speed > 100) analogy = "🚗 高速道路の車";
+            else if (speed > 30) analogy = "🛵 原付バイク";
+            else if (speed > 10) analogy = "🚴 自転車";
+            else analogy = "🏃 人の小走り";
+
+            document.getElementById('analogyObj').innerText = analogy;
+
+            if (tsunamiChart) {
+                tsunamiChart.data.datasets[1].data = [{ x: depth, y: speed }];
+                tsunamiChart.update();
+            }
+        }
+
+        function toggleDetail(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+    </script>
+</body>
+
+</html>

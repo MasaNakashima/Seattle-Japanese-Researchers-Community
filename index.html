@@ -16,6 +16,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
         rel="stylesheet">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -93,10 +95,7 @@
                             Center, a hub for world-class research.</p>
                     </div>
                     <div class="map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d43003.56738914619!2d-122.34867083616677!3d47.63973686884395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549014929d8535eb%3A0x6b742c7901b82ba3!2sUniversity%20of%20Washington!5e0!3m2!1sen!2sus!4v1707320000000!5m2!1sen!2sus"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div id="map"></div>
                     </div>
                 </div>
             </section>
@@ -139,6 +138,8 @@
             </div>
         </footer>
     </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="main.js"></script>
 </body>
 
