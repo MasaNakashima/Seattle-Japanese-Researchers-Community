@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Researcher Directory - Seattle Japanese Researchers' Community</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <a href="index.html" class="logo">SJRC</a>
+                <nav class="nav">
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#activities">Activities</a>
+                    <a href="reports.html">Reports</a>
+                    <a href="members.html" class="active">Members</a>
+                    <a href="knowledge.html">Knowledge</a>
+                    <div class="lang-switch">
+                        <span class="lang-active">EN</span> | <a href="members_ja.html" class="lang-link">JA</a>
+                    </div>
+                    <a href="https://www.facebook.com/groups/3358285694229446/" target="_blank"
+                        class="btn btn-primary">Join Community</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div class="container">
+                    <h1>Researchers Directory</h1>
+                    <p>Connect with <span id="member-count-display">303</span> researchers across various disciplines in
+                        the Greater Seattle Area.</p>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="container">
+                    <div class="filter-bar">
+                        <input type="text" id="member-search" placeholder="Search researchers, topics, or labs..."
+                            class="search-input">
+                    </div>
+
+                    <div id="members-grid" class="members-grid">
+                        <!-- Members will be injected here by main.js -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Seattle Japanese Researchers' Community.</p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

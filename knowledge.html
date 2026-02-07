@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knowledge Sharing - Seattle Japanese Researchers' Community</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <a href="index.html" class="logo">SJRC</a>
+                <nav class="nav">
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#activities">Activities</a>
+                    <a href="reports.html">Reports</a>
+                    <a href="members.html">Members</a>
+                    <a href="knowledge.html" class="active">Knowledge</a>
+                    <div class="lang-switch">
+                        <span class="lang-active">EN</span> | <a href="knowledge_ja.html" class="lang-link">JA</a>
+                    </div>
+                    <a href="https://www.facebook.com/groups/3358285694229446/" target="_blank"
+                        class="btn btn-primary">Join Community</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div class="container">
+                    <h1>Knowledge Sharing</h1>
+                    <p>Insights, resources, and discoveries shared by our community members.</p>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="container">
+                    <div class="reports-grid"> <!-- Reusing reports-grid for similar card layout -->
+                        <article class="report-card">
+                            <div class="report-meta">Grant Writing</div>
+                            <h3>Tips for NIH Grant Applications</h3>
+                            <p class="report-date">Provided by Dr. Hanako Tanaka</p>
+                            <p>A comprehensive guide on navigating the NIH grant process, specific to international
+                                researchers.</p>
+                            <a href="#" class="read-more">Download Guide</a>
+                        </article>
+
+                        <article class="report-card">
+                            <div class="report-meta">Living in Seattle</div>
+                            <h3>Housing Guide for Newcomers</h3>
+                            <p class="report-date">Community Resource</p>
+                            <p>Compiled list of safe neighborhoods, rental tips, and school districts for researchers
+                                moving to Seattle.</p>
+                            <a href="#" class="read-more">Read More</a>
+                        </article>
+
+                        <article class="report-card">
+                            <div class="report-meta">Research Tools</div>
+                            <h3>Data Visualization with Python</h3>
+                            <p class="report-date">Shared by Kenji Sato</p>
+                            <p>Jupyter notebooks and tutorials for creating publication-ready figures.</p>
+                            <a href="#" class="read-more">View Repository</a>
+                        </article>
+
+                        <article class="report-card">
+                            <div class="report-meta">Career</div>
+                            <h3>Navigating the Green Card Process</h3>
+                            <p class="report-date">Panel Discussion Summary</p>
+                            <p>Notes from our recent seminar on immigration options for researchers (EB-1, EB-2 NIW).
+                            </p>
+                            <a href="#" class="read-more">Read Summary</a>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Seattle Japanese Researchers' Community (シアトル日本人研究者の会).</p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

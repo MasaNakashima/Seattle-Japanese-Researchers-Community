@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>研究者名鑑 - シアトル日本人研究者の会</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <a href="index_ja.html" class="logo">SJRC</a>
+                <nav class="nav">
+                    <a href="index_ja.html#about">概要</a>
+                    <a href="index_ja.html#activities">活動内容</a>
+                    <a href="reports_ja.html">活動報告</a>
+                    <a href="members_ja.html" class="active">メンバー</a>
+                    <a href="knowledge_ja.html">ナレッジ</a>
+                    <div class="lang-switch">
+                        <a href="members.html" class="lang-link">EN</a> | <span class="lang-active">JA</span>
+                    </div>
+                    <a href="https://www.facebook.com/groups/3358285694229446/" target="_blank"
+                        class="btn btn-primary">コミュニティに参加</a>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div class="container">
+                    <h1>研究者名鑑</h1>
+                    <p>シアトル近郊の多様な分野で活躍する <span id="member-count-display">303</span> 名の研究者たち</p>
+                </div>
+            </div>
+
+            <section class="section">
+                <div class="container">
+                    <!-- Search/Filter Placeholder -->
+                    <div class="filter-bar">
+                        <input type="text" id="member-search" placeholder="研究者、トピック、ラボ名で検索..." class="search-input">
+                    </div>
+
+                    <div id="members-grid" class="members-grid">
+                        <!-- Members will be injected here by main.js -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Seattle Japanese Researchers' Community (シアトル日本人研究者の会).</p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
