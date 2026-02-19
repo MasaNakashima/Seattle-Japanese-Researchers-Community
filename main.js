@@ -8,11 +8,58 @@ const locationCoords = {
     "UW South Lake Union": [47.6256, -122.3391],
     "Fred Hutchinson Cancer Center": [47.6247, -122.3301],
     "Allen Institute": [47.6189, -122.3340],
-    "Seattle Children's Research Institute": [47.6166, -122.3353]
+    "Seattle Children's Research Institute": [47.6166, -122.3353],
+    "NOAA Western Regional Center": [47.6816683, -122.2583716]
 };
 
 let allMembers = [];
 let map = null;
+
+// ==========================================
+// GLOBAL HEADER NAV (MOBILE HAMBURGER)
+// ==========================================
+function setupMobileNav() {
+    const header = document.querySelector('.header');
+    if (!header) return;
+
+    const toggleBtn = header.querySelector('.nav-toggle');
+    const nav = header.querySelector('.nav');
+    if (!toggleBtn || !nav) return;
+
+    function setMenuState(open) {
+        header.classList.toggle('nav-open', open);
+        toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function closeMenu() {
+        setMenuState(false);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const isOpen = header.classList.contains('nav-open');
+        setMenuState(!isOpen);
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 1024) closeMenu();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!header.contains(event.target)) closeMenu();
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenu();
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) closeMenu();
+    });
+}
+
+setupMobileNav();
 
 // ==========================================
 // CANVAS ANIMATION (Connecting Nodes)
@@ -102,7 +149,7 @@ const isJapanese = document.documentElement.lang === 'ja';
 // fetch and parse CSV
 async function fetchMembers() {
     try {
-        const response = await fetch('members.csv');
+        const response = await fetch('members.csv', { cache: 'no-store' });
         if (!response.ok) throw new Error('Failed to load members.csv');
         const csvText = await response.text();
         allMembers = parseCSV(csvText);
@@ -546,7 +593,7 @@ window.addEventListener('hashchange', handleDeepLink);
 // If on home page, fetch members for the map also
 const homeMap = document.getElementById('map');
 if (homeMap && !membersGrid) {
-    fetch('members.csv')
+    fetch('members.csv', { cache: 'no-store' })
         .then(res => res.text())
         .then(csvText => {
             const members = parseCSV(csvText);

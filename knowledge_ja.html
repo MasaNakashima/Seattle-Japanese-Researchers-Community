@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ナレッジ共有 - シアトル日本人研究者の会</title>
 
+    <link rel="icon" type="image/png" href="favicon.png?v=7">
+    <link rel="shortcut icon" href="favicon.png?v=7">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -19,7 +22,10 @@
     <div id="app">
         <header class="header">
             <div class="container">
-                <a href="index_ja.html" class="logo">SJRC</a>
+                <a href="index_ja.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo"
+                        class="logo-icon"></a>
+                <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
                 <nav class="nav">
                     <a href="index_ja.html#about">概要</a>
                     <a href="index_ja.html#activities">活動内容</a>
@@ -43,40 +49,33 @@
                 </div>
             </div>
 
-            <section class="section">
-                <div class="container">
-                    <div class="reports-grid">
-                        <article class="report-card">
-                            <div class="report-meta">グラント申請</div>
-                            <h3>NIHグラント申請のヒント</h3>
-                            <p class="report-date">提供者: 田中 花子 博士</p>
-                            <p>外国人研究者がNIHのグラントプロセスを乗り切るための包括的なガイド。</p>
-                            <a href="#" class="read-more">ガイドをダウンロード</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">シアトル生活</div>
-                            <h3>新参者のための住宅ガイド</h3>
-                            <p class="report-date">コミュニティリソース</p>
-                            <p>シアトルに引っ越してくる研究者のための、安全な地域、賃貸のヒント、学区情報のまとめ。</p>
-                            <a href="#" class="read-more">続きを読む</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">研究ツール</div>
-                            <h3>Pythonによるデータ可視化</h3>
-                            <p class="report-date">共有者: 佐藤 健司</p>
-                            <p>出版品質の図を作成するためのJupyter Notebookとチュートリアル。</p>
-                            <a href="#" class="read-more">リポジトリを見る</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">キャリア</div>
-                            <h3>永住権申請プロセスについて</h3>
-                            <p class="report-date">パネルディスカッションまとめ</p>
-                            <p>研究者のための移民オプション（EB-1, EB-2 NIW）に関する最近のセミナーのメモ。</p>
-                            <a href="#" class="read-more">まとめを読む</a>
-                        </article>
+            <section class="section chat-section">
+                <div class="container chat-layout">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h2>アシスタント</h2>
+                            <p class="status">オンライン</p>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-message bot-message">
+                                <div class="chat-avatar">🤖</div>
+                                <div class="chat-content">
+                                    こんにちは！SJRC Knowledge
+                                    Assistantです。特定のメンバーやトピックを検索したり、<strong>異なる分野を組み合わせて</strong>（例：「Tsunami &
+                                    Cardiology」）当コミュニティの異分野融合アイデアを探索することができます。どのような情報をお探しですか？
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chat-input" class="chat-input"
+                                placeholder="研究トピック、メンバー、ラボについて質問する..." autocomplete="off">
+                            <button class="chat-send-btn btn btn-primary" id="chat-send-btn" aria-label="送信">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -88,7 +87,8 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="main.js?v=1.2"></script>
+    <script src="knowledge.js?v=1.0"></script>
 </body>
 
 </html>

@@ -8,6 +8,9 @@
 
     <title>シアトル日本人研究者の会 (SJRC)</title>
 
+    <link rel="icon" type="image/png" href="favicon.png?v=7">
+    <link rel="shortcut icon" href="favicon.png?v=7">
+
     <!-- Google Fonts: Outfit (Headings) + Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +27,12 @@
     <div id="app">
         <header class="header">
             <div class="container">
-                <a href="index_ja.html" class="logo">SJRC</a>
+                <a href="index_ja.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo" class="logo-icon"></a>
+                <div class="header-shortcuts">
+                    <a href="#about">概要</a>
+                    <a href="#activities">活動内容</a>
+                </div>
+                <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
                 <nav class="nav">
                     <a href="#about">概要</a>
                     <a href="#activities">活動内容</a>
@@ -45,8 +53,10 @@
             <section class="hero">
                 <canvas id="hero-canvas"></canvas>
                 <div class="container hero-content">
-                    <h1 class="hero-title">Innovative Ideas Are Born where <span class="text-gradient">Different
-                            Disciplines Intersect</span></h1>
+                    <div class="hero-slogan">
+                        <img src="logo-main.png?v=5" alt="SJRC logo" class="hero-slogan-logo">
+                        <h1 class="hero-title">新しいアイデアは<span class="text-gradient">異分野との境界線上</span>に生まれる</h1>
+                    </div>
                     <p class="hero-subtitle">Seattle Japanese Researchers' Community<br>シアトル日本人研究者の会</p>
                     <div class="hero-actions">
                         <a href="#about" class="btn btn-secondary">詳しく見る</a>
@@ -136,7 +146,7 @@
     </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="main.js?v=1.2"></script>
 </body>
 
 </html>

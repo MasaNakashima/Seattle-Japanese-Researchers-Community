@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Knowledge Sharing - Seattle Japanese Researchers' Community</title>
 
+    <link rel="icon" type="image/png" href="favicon.png?v=7">
+    <link rel="shortcut icon" href="favicon.png?v=7">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -19,7 +22,10 @@
     <div id="app">
         <header class="header">
             <div class="container">
-                <a href="index.html" class="logo">SJRC</a>
+                <a href="index.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo"
+                        class="logo-icon"></a>
+                <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
                 <nav class="nav">
                     <a href="index.html#about">About</a>
                     <a href="index.html#activities">Activities</a>
@@ -43,43 +49,34 @@
                 </div>
             </div>
 
-            <section class="section">
-                <div class="container">
-                    <div class="reports-grid"> <!-- Reusing reports-grid for similar card layout -->
-                        <article class="report-card">
-                            <div class="report-meta">Grant Writing</div>
-                            <h3>Tips for NIH Grant Applications</h3>
-                            <p class="report-date">Provided by Dr. Hanako Tanaka</p>
-                            <p>A comprehensive guide on navigating the NIH grant process, specific to international
-                                researchers.</p>
-                            <a href="#" class="read-more">Download Guide</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">Living in Seattle</div>
-                            <h3>Housing Guide for Newcomers</h3>
-                            <p class="report-date">Community Resource</p>
-                            <p>Compiled list of safe neighborhoods, rental tips, and school districts for researchers
-                                moving to Seattle.</p>
-                            <a href="#" class="read-more">Read More</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">Research Tools</div>
-                            <h3>Data Visualization with Python</h3>
-                            <p class="report-date">Shared by Kenji Sato</p>
-                            <p>Jupyter notebooks and tutorials for creating publication-ready figures.</p>
-                            <a href="#" class="read-more">View Repository</a>
-                        </article>
-
-                        <article class="report-card">
-                            <div class="report-meta">Career</div>
-                            <h3>Navigating the Green Card Process</h3>
-                            <p class="report-date">Panel Discussion Summary</p>
-                            <p>Notes from our recent seminar on immigration options for researchers (EB-1, EB-2 NIW).
-                            </p>
-                            <a href="#" class="read-more">Read Summary</a>
-                        </article>
+            <section class="section chat-section">
+                <div class="container chat-layout">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h2>Assistant</h2>
+                            <p class="status">Online</p>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-message bot-message">
+                                <div class="chat-avatar">🤖</div>
+                                <div class="chat-content">
+                                    Hello! I am the SJRC Knowledge Assistant. You can search for a single member or
+                                    topic, or <strong>try combining different disciplines</strong> (like "Tsunami and
+                                    Cardiology") to explore innovative research intersections in our community! How can
+                                    I help you today?
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chat-input" class="chat-input"
+                                placeholder="Ask about research topics, members, labs..." autocomplete="off">
+                            <button class="chat-send-btn btn btn-primary" id="chat-send-btn" aria-label="Send">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -91,7 +88,8 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="main.js?v=1.2"></script>
+    <script src="knowledge.js?v=1.0"></script>
 </body>
 
 </html>
