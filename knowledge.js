@@ -186,6 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         : "The human body has a multi-layer defense system: a physical barrier (nose/mouth), lymphoid capture tissues (tonsils), ciliary clearance in the bronchi, and alveolar macrophages deep in the lungs. Smoking significantly impairs ciliary function, thereby increasing the risk of pneumonia.",
                     source: "2026 1st Event Report: From Micro-Evolution to Macro-Waves",
                     link: "events/2026-01-31.html#section-micro"
+                },
+                {
+                    keywords: ["緑膿菌", "pseudomonas", "pseudomonas aeruginosa"],
+                    question: "What is Pseudomonas aeruginosa (緑膿菌)?",
+                    answer: isJapanese
+                        ? "緑膿菌（Pseudomonas aeruginosa）は環境中に広く存在する細菌です。健康な人には弱毒性ですが、免疫力が低下した患者には重篤な感染症を引き起こします。多くの抗生物質が効きにくく、バイオフィルムを形成するため治療が困難です。慢性感染の過程で、攻撃的な「野生株」から持続性の高い「適応株」へと進化します。"
+                        : "Pseudomonas aeruginosa is a bacterium widely present in the environment. While low-virulence in healthy individuals, it can be life-threatening to vulnerable patients. It is intrinsically difficult to treat due to antibiotic resistance and its ability to form biofilms. During chronic infections, it evolves from an aggressive 'wild-type' to a highly persistent 'adapted-type'.",
+                    source: "2026 1st Event Report: From Micro-Evolution to Macro-Waves",
+                    link: "events/2026-01-31.html#section-micro"
                 }
             ];
 
