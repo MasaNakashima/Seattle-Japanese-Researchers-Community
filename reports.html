@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Reports - Seattle Japanese Researchers' Community</title>
+    <script src="auth.js"></script>
 
     <link rel="icon" type="image/png" href="favicon.png?v=7">
     <link rel="shortcut icon" href="favicon.png?v=7">
@@ -15,15 +16,17 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=2.2" />
 </head>
 
 <body>
     <div id="app">
         <header class="header">
             <div class="container">
-                <a href="index.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo" class="logo-icon"></a>
-                <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+                <a href="index.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo"
+                        class="logo-icon"></a>
+                <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
                 <nav class="nav">
                     <a href="index.html#about">About</a>
                     <a href="index.html#activities">Activities</a>
@@ -49,14 +52,44 @@
 
             <section class="section">
                 <div class="container">
-                    <div class="reports-grid">
-                        <article class="report-card">
+                    <!-- Reports Filter -->
+                    <div class="members-filter reports-filter" style="margin-bottom: 2.5rem;">
+                        <div class="search-box">
+                            <input type="text" id="report-search" placeholder="Search reports by keyword or tag...">
+                            <span class="search-icon">🔍</span>
+                        </div>
+                        <div class="tag-cloud-container">
+                            <div class="tag-cloud-label">Quick Filter:</div>
+                            <div id="report-tag-cloud" class="tag-cloud">
+                                <!-- Tags will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reports-grid" id="reports-grid">
+                        <article class="report-card" data-tags="Medicine,Biological Sciences,Engineering,Research">
                             <div class="report-meta recent">Latest Report</div>
                             <h3>1st Seattle Japanese Researchers' Community Meeting 2026</h3>
                             <div class="report-date">January 31, 2026</div>
+                            <div class="report-card-tags">
+                                <span class="report-tag">Medicine</span>
+                                <span class="report-tag">Engineering</span>
+                            </div>
                             <p>"From Micro-Evolution to Macro-Waves: Challenging Uncertainty in Science." Presentations
                                 by Dr. Naoya Nishiyama (UW) and Dr. Takuya Miyashita (NOAA/Kyoto Univ).</p>
                             <a href="events/2026-01-31.html" class="read-more">Read Full Report</a>
+                        </article>
+
+                        <article class="report-card" data-tags="Research Support,JSPS,Academic">
+                            <div class="report-meta">Past Report</div>
+                            <h3>Introduction to JSPS San Francisco Office Activities</h3>
+                            <div class="report-date">January 26, 2026</div>
+                            <div class="report-card-tags">
+                                <span class="report-tag">Research Support</span>
+                            </div>
+                            <p>An introduction to the roles of overseas research centers and efforts in supporting
+                                researchers in North America by Mr. Yusaku Nakabeppu from JSPS San Francisco.</p>
+                            <a href="events/2026-01-26.html" class="read-more">Read Full Report</a>
                         </article>
                     </div>
                 </div>
@@ -69,7 +102,7 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="main.js?v=1.2"></script>
+    <script type="module" src="main.js?v=2.2"></script>
 </body>
 
 </html>

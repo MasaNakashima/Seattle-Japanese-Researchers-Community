@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define the event reports to fetch
     const eventReports = [
+        { path: 'events/2026-01-26.html', title: 'JSPS San Francisco Office Activity Introduction' },
         { path: 'events/2026-01-31.html', title: '2026 1st Event Report: From Micro-Evolution to Macro-Waves' }
     ];
 
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initKnowledgeBase() {
         try {
             // 1. Fetch Members
-            const membersResponse = await fetch('members.csv', { cache: 'no-store' });
+            const membersResponse = await fetch(`members.csv?v=${new Date().getTime()}`, { cache: 'no-store' });
             if (!membersResponse.ok) throw new Error('Failed to load members.csv');
             const csvText = await membersResponse.text();
             membersData = parseCSV(csvText);
@@ -83,14 +84,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const members = [];
 
         for (let i = 1; i < lines.length; i++) {
-            const row = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-            if (!row) continue;
+            const row = [];
+            let col = "";
+            let inQuotes = false;
+            const line = lines[i];
+
+            for (let j = 0; j < line.length; j++) {
+                const char = line[j];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    row.push(col.trim());
+                    col = "";
+                } else {
+                    col += char;
+                }
+            }
+            row.push(col.trim());
 
             const member = {};
-            row.forEach((cell, index) => {
-                if (index < headers.length) {
-                    member[headers[index]] = cell.replace(/^"|"$/g, '').trim();
-                }
+            headers.forEach((header, index) => {
+                member[header] = row[index] ? row[index].replace(/^"|"$/g, '').trim() : '';
             });
             members.push(member);
         }
@@ -121,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkConversationalIntents(query) {
-        const q = query.toLowerCase();
+        const q = query.trim().toLowerCase();
 
         // 1. Greetings
-        if (/^(hi|hello|hey|こんにちは|挨拶)/i.test(q)) {
+        if (/^(hi\b|hello\b|hey\b|こんにちは|挨拶)/i.test(q) && q.length < 20) {
             return isJapanese
                 ? "こんにちは！どのような研究トピックやメンバーについて知りたいですか？"
                 : "Hello! What research topics or members would you like to explore today?";
@@ -172,6 +186,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 : "Thank you for your interest in joining SJRC! For details on how to become a member or participate in our events, please visit our <a href='contact.html' style='color:var(--color-primary);text-decoration:underline;'>Contact / Join us page</a>.";
         }
 
+        // 4. Chit-chat / Help
+        if (q.includes('who are you') || q.includes('what are you') || q.includes('お前は誰') || q.includes('名前は') || q.includes('誰ですか') || q.includes('what is this') || (q.includes('bot') && q.includes('who'))) {
+            return isJapanese
+                ? "私はSJRC（Seattle Japanese Researchers' Community）の知識アシスタントボットです。メンバーの専門分野や過去のイベントレポートから、あなたにぴったりの情報を見つけ出します。"
+                : "I am the SJRC Knowledge Assistant Bot. I help you find information about our members' expertise and past event reports to foster collaboration.";
+        }
+
+        if (q.includes('what can you do') || q.includes('何ができる') || q.includes('使い方') || /(^|\s)(help|ヘルプ)(\s|$)/.test(q)) {
+            return isJapanese
+                ? "私は以下のことができます：<br>1. <strong>メンバー検索:</strong> 「機械学習」や「生物学」などのトピックで専門家を探します<br>2. <strong>情報抽出:</strong> 過去のイベントレポートから関連情報を検索します<br>3. <strong>知識補完:</strong> コミュニティ内にない話題については、外部知識（Wikipedia等）から概要を引いてきます<br>4. <strong>コラボ提案:</strong> 2つの分野を入力すると、融合アイデアを提案します"
+                : "Here is what I can do:<br>1. <strong>Find Members:</strong> Search for topics like 'machine learning' or 'biology' to find experts.<br>2. <strong>Extract Insights:</strong> Find context from past event reports.<br>3. <strong>General Knowledge:</strong> Provide summaries from external sources (like Wikipedia) if community data is unavailable.<br>4. <strong>Collaboration Ideas:</strong> Enter two different fields to get interdisciplinary ideas.";
+        }
+
         return null;
     }
 
@@ -188,15 +215,18 @@ document.addEventListener('DOMContentLoaded', () => {
         addMessage('bot', typingHtml, true);
 
         // 3. Process the query (Simulated delay for "thinking" effect)
-        setTimeout(() => {
-            const typingElement = document.getElementById(typingId);
-            if (typingElement && typingElement.parentElement.parentElement) {
-                chatMessages.removeChild(typingElement.parentElement.parentElement);
-            }
+        setTimeout(async () => {
+            const removeTyping = () => {
+                const typingElement = document.getElementById(typingId);
+                if (typingElement && typingElement.parentElement.parentElement) {
+                    chatMessages.removeChild(typingElement.parentElement.parentElement);
+                }
+            };
 
             // Check conversational intents first
             const intentResponse = checkConversationalIntents(query);
             if (intentResponse) {
+                removeTyping();
                 addMessage('bot', intentResponse, true);
                 return; // End processing if it was a conversational query
             }
@@ -211,14 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 .map(part => part.trim())
                 .filter(part => part.length > 0);
 
-            // If the user didn't use explicit conjunctions, try splitting by space if it's multiple distinct words
-            // that don't match exactly.
-            let topicsToSearch = parsedParts.length > 1 ? parsedParts : lowerQuery.split(/\s+/).filter(p => p.length > 2);
-
-            // Fallback: If space splitting didn't yield multiple, just use the whole string as one topic.
-            if (topicsToSearch.length <= 1) {
-                topicsToSearch = [lowerQuery];
-            }
+            // If the user didn't use explicit conjunctions, just treat the entire query as a single topic.
+            // (Splitting by space breaks names and multi-word phrases, which caused false interdisciplinary suggestions)
+            let topicsToSearch = parsedParts.length > 1 ? parsedParts : [lowerQuery.trim()];
 
             // Find researchers and report snippets for EACH topic distinctly
             let groupedResults = {};
@@ -228,16 +253,25 @@ document.addEventListener('DOMContentLoaded', () => {
             let matchedReports = [];
 
             topicsToSearch.forEach(topic => {
+                // Break down topic into individual words to enable partial phrase matching (e.g. "John Doe" matches "John" and "Doe")
+                const topicWords = topic.split(/\s+/).filter(w => w.trim() !== '');
+
                 // 1. Members Search
                 const matchesForTopic = membersData.filter(m => {
                     const searchableText = [
                         m.name,
+                        m.nameJa,
                         m.title,
+                        m.titleJa,
                         m.labName,
+                        m.labNameJa,
                         m.researchCategory,
-                        m.researchTopic
+                        m.researchCategoryJa,
+                        m.researchTopic,
+                        m.researchTopicJa
                     ].join(" ").toLowerCase();
-                    return searchableText.includes(topic);
+                    // A candidate is a match if ALL words in the topic phrase appear within their searchable text
+                    return topicWords.every(word => searchableText.includes(word));
                 });
 
                 if (matchesForTopic.length > 0) {
@@ -262,17 +296,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Format response
             if (uniqueResults.length === 0 && matchedReports.length === 0) {
-                const searchUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
+                // Try external Wikipedia API as fallback for dynamic knowledge
+                const wikiLang = isJapanese ? 'ja' : 'en';
+                const searchUrl = `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&utf8=&format=json&origin=*`;
+
+                try {
+                    const searchRes = await fetch(searchUrl);
+                    const searchData = await searchRes.json();
+
+                    if (searchData.query && searchData.query.search && searchData.query.search.length > 0) {
+                        const topResult = searchData.query.search[0];
+                        const pageTitle = topResult.title;
+
+                        const summaryUrl = `https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
+                        const summaryRes = await fetch(summaryUrl);
+                        const data = await summaryRes.json();
+
+                        if (data.type === 'standard' && data.extract) {
+                            removeTyping();
+                            const wikiHtml = isJapanese
+                                ? `<p>コミュニティ内にはこのトピックに関する情報が見つかりませんでしたが、一般的な概念として以下の情報をWikipediaから取得しました：</p>
+                                   <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px; margin: 10px 0; border-left: 4px solid var(--color-primary);">
+                                      <h4 style="margin:0 0 8px 0;">${data.title}</h4>
+                                      <p style="margin:0 0 10px 0; font-size:0.95rem; line-height: 1.5;">${data.extract}</p>
+                                      <a href="${data.content_urls.desktop.page}" target="_blank" style="font-size:0.8rem; color:var(--color-primary); text-decoration:none;">📄 Wikipediaで続きを読む &rarr;</a>
+                                   </div>
+                                   <p style="margin-top:10px; font-size: 0.9rem;">SJRCでこの分野を新しく開拓してみませんか？専門のメンバーを追加することもできます。</p>`
+                                : `<p>I couldn't find internal community updates for this topic, but here is some general context from Wikipedia:</p>
+                                   <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px; margin: 10px 0; border-left: 4px solid var(--color-primary);">
+                                      <h4 style="margin:0 0 8px 0;">${data.title}</h4>
+                                      <p style="margin:0 0 10px 0; font-size:0.95rem; line-height: 1.5;">${data.extract}</p>
+                                      <a href="${data.content_urls.desktop.page}" target="_blank" style="font-size:0.8rem; color:var(--color-primary); text-decoration:none;">📄 Read more on Wikipedia &rarr;</a>
+                                   </div>
+                                   <p style="margin-top:10px; font-size: 0.9rem;">Perhaps you could pioneer this topic within SJRC! Let us know if we should add experts in this field.</p>`;
+                            addMessage("bot", wikiHtml, true);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Wikipedia fallback failed:', e);
+                }
+
+                removeTyping();
+                const scholarUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
                 const noResultMsg = isJapanese
-                    ? `「${query}」に関連するメンバーやレポートの文脈はコミュニティ内に見つかりませんでした。<br><br>💡 <strong>外部検索:</strong> <a href="${searchUrl}" target="_blank" style="color:var(--color-primary);text-decoration:underline;">Google Scholarで「${query}」に関する論文を検索する</a>`
-                    : `I couldn't find any community members or event reports related to "${query}".<br><br>💡 <strong>Web Search:</strong> <a href="${searchUrl}" target="_blank" style="color:var(--color-primary);text-decoration:underline;">Search Google Scholar for papers on "${query}"</a>`;
+                    ? `「${query}」に関連する情報はコミュニティ内やオープンな辞書で見つかりませんでした。<br><br>💡 <strong>研究検索:</strong> <a href="${scholarUrl}" target="_blank" style="color:var(--color-primary);text-decoration:underline;">Google Scholarで「${query}」に関する論文を探す</a>`
+                    : `I couldn't find information related to "${query}" internally or in general knowledge.<br><br>💡 <strong>Academic Search:</strong> <a href="${scholarUrl}" target="_blank" style="color:var(--color-primary);text-decoration:underline;">Search Google Scholar for "${query}"</a>`;
                 addMessage("bot", noResultMsg, true);
                 return;
             }
 
+            removeTyping(); // Remove typing before showing internal results
             // UPDATE CONTEXT with successful search results (from members)
             currentChatContext.topics = matchedTopics;
-            currentChatContext.people = uniqueResults.map(m => m.name);
+            currentChatContext.people = uniqueResults.map(m => isJapanese ? (m.nameJa || m.name) : m.name);
 
             let responseHtml = "";
 
@@ -367,16 +444,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                // Localized fields
+                const displayName = isJapanese ? (m.nameJa || m.name) : m.name;
+                const displayTitle = isJapanese ? (m.titleJa || m.title) : m.title;
+                const displayLab = isJapanese ? (m.labNameJa || m.labName) : m.labName;
+                const displayCategory = isJapanese ? (m.researchCategoryJa || m.researchCategory) : m.researchCategory;
+                const displayTopic = isJapanese ? (m.researchTopicJa || m.researchTopic) : m.researchTopic;
+
                 responseHtml += `
                     <div class="chat-result-card" style="animation-delay: ${index * 0.1}s">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <h4><a href="${profileLink}" target="_blank">${m.name}</a></h4>
+                            <h4><a href="${profileLink}" target="_blank">${displayName}</a></h4>
                             ${topicLabelHtml}
                         </div>
-                        ${m.title ? `<p class="chat-title">${m.title}</p>` : ""}
-                        ${m.labName ? `<p class="chat-lab">🏛️ ${m.labName}</p>` : ""}
-                        ${m.researchTopic ? `<p class="chat-topic">🔬 <strong>Topic:</strong> ${m.researchTopic}</p>` : ""}
-                        ${m.researchCategory ? `<p class="chat-category">🏷️ <strong>Category:</strong> ${m.researchCategory}</p>` : ""}
+                        ${displayTitle ? `<p class="chat-title">${displayTitle}</p>` : ""}
+                        ${displayLab ? `<p class="chat-lab">🏛️ ${displayLab}</p>` : ""}
+                        ${displayTopic ? `<p class="chat-topic">🔬 <strong>${isJapanese ? '研究トピック' : 'Topic'}:</strong> ${displayTopic}</p>` : ""}
+                        ${displayCategory ? `<p class="chat-category">🏷️ <strong>${isJapanese ? 'カテゴリー' : 'Category'}:</strong> ${displayCategory}</p>` : ""}
                     </div>
                 `;
             });

@@ -1,16 +1,11 @@
 {
-  "name": "seattle-researchers-community",
+  "name": "sjrc-website",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "Seattle Japanese Researchers' Community Website",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "fetch-members": "node scripts/fetch-members.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "firebase-tools": "^15.5.1"
+    "playwright": "^1.42.1"
   }
 }

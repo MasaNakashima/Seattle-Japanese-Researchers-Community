@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>イベントレポート - シアトル日本人研究者の会</title>
+    <script src="auth.js"></script>
 
     <link rel="icon" type="image/png" href="favicon.png?v=7">
     <link rel="shortcut icon" href="favicon.png?v=7">
@@ -15,15 +16,17 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=2.2" />
 </head>
 
 <body>
     <div id="app">
         <header class="header">
             <div class="container">
-                <a href="index_ja.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo" class="logo-icon"></a>
-                <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+                <a href="index_ja.html" class="logo" aria-label="SJRC Home"><img src="logo-main.png?v=5" alt="SJRC logo"
+                        class="logo-icon"></a>
+                <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
                 <nav class="nav">
                     <a href="index_ja.html#about">概要</a>
                     <a href="index_ja.html#activities">活動内容</a>
@@ -49,13 +52,42 @@
 
             <section class="section">
                 <div class="container">
-                    <div class="reports-grid">
-                        <article class="report-card">
+                    <!-- レポートフィルター -->
+                    <div class="members-filter reports-filter" style="margin-bottom: 2.5rem;">
+                        <div class="search-box">
+                            <input type="text" id="report-search" placeholder="キーワードやタグでレポートを検索...">
+                            <span class="search-icon">🔍</span>
+                        </div>
+                        <div class="tag-cloud-container">
+                            <div class="tag-cloud-label">クイックフィルター:</div>
+                            <div id="report-tag-cloud" class="tag-cloud">
+                                <!-- タグがここに挿入されます -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reports-grid" id="reports-grid">
+                        <article class="report-card" data-tags="医学,生物学,工学,研究">
                             <div class="report-meta recent">最新レポート</div>
                             <h3>2026年 第一回シアトル日本人研究者の会</h3>
                             <div class="report-date">2026年1月31日開催</div>
+                            <div class="report-card-tags">
+                                <span class="report-tag">医学</span>
+                                <span class="report-tag">工学</span>
+                            </div>
                             <p>「ミクロの進化からマクロの波動まで：科学が挑む不確実性」をテーマに、西山直哉氏（ワシントン大学）と宮下卓也氏（NOAA/京都大学）による発表が行われました。</p>
                             <a href="events/2026-01-31-ja.html" class="read-more">レポート詳細を読む</a>
+                        </article>
+
+                        <article class="report-card" data-tags="研究支援,JSPS,アカデミア">
+                            <div class="report-meta">過去のレポート</div>
+                            <h3>JSPS サンフランシスコ研究連絡センターの活動紹介</h3>
+                            <div class="report-date">2026年1月26日開催</div>
+                            <div class="report-card-tags">
+                                <span class="report-tag">研究支援</span>
+                            </div>
+                            <p>日本学術振興会（JSPS）サンフランシスコ研究連絡センターの中別府雄作氏を招き、海外拠点の役割や研究者支援の取り組みについてご講演いただきました。</p>
+                            <a href="events/2026-01-26-ja.html" class="read-more">レポート詳細を読む</a>
                         </article>
                     </div>
                 </div>
@@ -68,7 +100,7 @@
             </div>
         </footer>
     </div>
-    <script type="module" src="main.js?v=1.2"></script>
+    <script type="module" src="main.js?v=2.2"></script>
 </body>
 
 </html>

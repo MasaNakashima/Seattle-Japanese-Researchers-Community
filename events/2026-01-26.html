@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSPS San Francisco Office Activity Introduction Report</title>
+
+    <link rel="icon" type="image/png" href="../favicon.png?v=7">
+    <link rel="shortcut icon" href="../favicon.png?v=7">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background: radial-gradient(circle at 10% 0%, #1e293b 0%, #0f172a 28%, #0b1220 100%);
+            color: #e8edf7;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: rgba(8, 13, 25, 0.92);
+            backdrop-filter: blur(12px);
+        }
+
+        .header .nav a:not(.btn) {
+            color: #9fb0c9;
+        }
+
+        .header .nav a:not(.btn):hover,
+        .header .nav a.active {
+            color: #7dd3fc;
+        }
+
+        .report-shell {
+            margin-top: calc(var(--header-height) + 22px);
+            margin-bottom: 4.5rem;
+        }
+
+        .report-header {
+            background: linear-gradient(140deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 55%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 24px;
+            box-shadow: 0 30px 50px -38px rgba(2, 6, 23, 0.9);
+        }
+
+        .chip {
+            border: 1px solid rgba(125, 211, 252, 0.35);
+            background: rgba(12, 20, 38, 0.6);
+            color: #bae6fd;
+            border-radius: 999px;
+            padding: 0.3rem 0.78rem;
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            display: inline-block;
+        }
+
+        .report-card {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.86) 0%, rgba(15, 23, 42, 0.78) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 24px;
+            box-shadow: 0 24px 44px -38px rgba(2, 6, 23, 0.95);
+        }
+
+        .accent-jsps {
+            border-left: 6px solid #38bdf8;
+        }
+
+        .script-box {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 16px;
+            background: rgba(8, 13, 25, 0.55);
+            overflow: hidden;
+        }
+
+        .script-box summary {
+            list-style: none;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #e8f2ff;
+            padding: 0.92rem 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .script-box summary::before {
+            content: "▶";
+            margin-right: 0.45rem;
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .script-box[open] summary::before {
+            content: "▼";
+        }
+
+        .script-box pre {
+            margin: 0;
+            padding: 1rem;
+            white-space: pre-wrap;
+            line-height: 1.95;
+            color: #d3dceb;
+            font-size: 0.9rem;
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background: rgba(7, 12, 23, 0.55);
+        }
+
+        .report-shell .text-slate-900 {
+            color: #f8fbff !important;
+        }
+
+        .report-shell .text-slate-600 {
+            color: #becada !important;
+        }
+
+        .report-shell .text-slate-700 {
+            color: #d2ddeb !important;
+        }
+
+        @media (max-width: 768px) {
+            .report-shell {
+                margin-top: calc(var(--header-height) + 10px);
+                padding-left: 0.9rem !important;
+                padding-right: 0.9rem !important;
+            }
+
+            .report-header {
+                border-radius: 18px;
+                padding: 1rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container">
+                <a href="../index.html" class="logo" aria-label="SJRC Home"><img src="../logo-main.png?v=5"
+                        alt="SJRC logo" class="logo-icon"></a>
+                <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+                <nav class="nav">
+                    <a href="../index.html#about">About</a>
+                    <a href="../index.html#activities">Activities</a>
+                    <a href="../reports.html" class="active">Reports</a>
+                    <a href="../members.html">Members</a>
+                    <a href="../knowledge.html">Knowledge</a>
+                    <div class="lang-switch">
+                        <span class="lang-active">EN</span> | <a href="2026-01-26-ja.html" class="lang-link">JA</a>
+                    </div>
+                    <a href="https://www.facebook.com/groups/3358285694229446/" target="_blank"
+                        class="btn btn-primary">Join Community</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 report-shell">
+            <section class="report-header p-6 sm:p-8 mb-8">
+                <div class="flex flex-wrap items-center gap-2 mb-4">
+                    <span class="chip">JSPS San Francisco Office</span>
+                    <span class="chip">Date: January 26, 2026 (Mon)</span>
+                    <span class="chip">Venue: Fred Hutchinson Cancer Center</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Introduction to JSPS San Francisco Office
+                    Activities</h1>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    Mr. Yusaku Nakabeppu from the Japan Society for the Promotion of Science (JSPS) San Francisco Office
+                    was invited to give a lecture on the roles of overseas research centers and their efforts in
+                    supporting researchers and promoting international exchange in North America.
+                </p>
+            </section>
+
+            <div class="space-y-8">
+                <section class="report-card accent-jsps p-6 sm:p-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-4">1. Context and Introduction: Why This Talk at
+                        SJRC?</h2>
+                    <p class="text-slate-700 leading-relaxed">
+                        Mr. Nakabeppu gave this talk to introduce the activities of the JSPS San Francisco Office.
+                        Originally, he visited the area in connection with activities in Washington DC to introduce
+                        fellowships to Japan. He took this opportunity to share information with the Seattle Japanese
+                        Researchers' Community (SJRC). This talk aimed not only to introduce the organization but also
+                        to specifically show "what kind of supportive connection points" could be provided to the
+                        researcher community.
+                    </p>
+                </section>
+
+                <section class="report-card accent-jsps p-6 sm:p-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-4">2. Mr. Nakabeppu's Background: Researcher
+                        Experience Shaping Support Perspectives</h2>
+                    <p class="text-slate-700 leading-relaxed">
+                        Mr. Nakabeppu shared his journey as a researcher and mentioned that his encounter with research
+                        environments and his experience studying abroad were key triggers for him to become strongly
+                        aware of the importance of an international research community. In addition to research and
+                        education at universities, he gained experience in programs at the JSPS Research Center for
+                        Science Systems and is now responsible for supporting researchers at an overseas base.
+                    </p>
+                </section>
+
+                <section class="report-card accent-jsps p-6 sm:p-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-4">3. Overview of JSPS Overseas Offices:
+                        Exceptionality and Functional Division of the Two US Offices</h2>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        JSPS overseas research centers are established worldwide to promote international academic
+                        exchange. Uniquely, the US has two offices (Washington DC and San Francisco), with clear
+                        functional divisions:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-slate-700">
+                        <li><strong>Washington DC Office</strong>: Policy and institutional collaboration (government
+                            agencies, diplomatic missions, research policy).</li>
+                        <li><strong>San Francisco Office</strong>: Academia-focused (researcher support, university and
+                            researcher community collaboration).</li>
+                    </ul>
+                    <p class="text-slate-700 leading-relaxed mt-4">
+                        It was also shared that the San Francisco Office's jurisdiction covers the western part of North
+                        America as well as Central and South America.
+                    </p>
+                </section>
+
+                <section class="report-card accent-jsps p-6 sm:p-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-4">4. Characteristics of JSPS: All-Field Support and
+                        Researcher-Driven Operation</h2>
+                    <p class="text-slate-700 leading-relaxed">
+                        A major feature of JSPS is its support for "all fields," from humanities and social sciences to
+                        natural sciences, and its emphasis on "researcher bottom-up" initiatives. It was highlighted
+                        that the perspectives of researchers themselves are reflected in the review and operation of
+                        programs.
+                    </p>
+                </section>
+
+                <div class="report-card p-6">
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Full Text Detail</h3>
+                    <div class="script-box">
+                        <details>
+                            <summary>Open Full Text</summary>
+                            <pre>Introduction to JSPS San Francisco Office Activities
+Date: January 26, 2026 (Mon)
+Location: Fred Hutchinson Cancer Center (Seattle, WA)
+Speaker: Mr. Yusaku Nakabeppu (Japan Society for the Promotion of Science (JSPS) San Francisco Office)
+Theme: Roles of JSPS Overseas Research Centers and Efforts in Supporting Researchers and International Exchange in North America
+
+1. Context and Introduction: Why This Talk at SJRC?
+Mr. Nakabeppu gave this talk to introduce the activities of the JSPS San Francisco Office. Originally, he visited the area in connection with activities in Washington DC to introduce fellowships to Japan. He took this opportunity to share information with the Seattle Japanese Researchers' Community (SJRC). This talk aimed not only to introduce the organization but also to specifically show "what kind of supportive connection points" could be provided to the researcher community.
+
+2. Mr. Nakabeppu's Background: Researcher Experience Shaping Support Perspectives
+Mr. Nakabeppu shared his journey as a researcher and mentioned that his encounter with research environments and his experience studying abroad were key triggers for him to become strongly aware of the importance of an international research community. In addition to research and education at universities, he gained experience in programs at the JSPS Research Center for Science Systems and is now responsible for supporting researchers at an overseas base.
+
+3. Overview of JSPS Overseas Offices: Exceptionality and Functional Division of the Two US Offices
+JSPS overseas research centers are established worldwide to promote international academic exchange. Uniquely, the US has two offices (Washington DC and San Francisco), with clear functional divisions:
+・Washington DC Office: Policy and institutional collaboration (government agencies, diplomatic missions, research policy).
+・San Francisco Office: Academia-focused (researcher support, university and researcher community collaboration).
+It was also shared that the San Francisco Office's jurisdiction covers the western part of North America as well as Central and South America.
+
+4. Characteristics of JSPS: All-Field Support and Researcher-Driven Operation
+A major feature of JSPS is its support for "all fields," from humanities and social sciences to natural sciences, and its emphasis on "researcher bottom-up" initiatives. It was highlighted that the perspectives of researchers themselves are reflected in the review and operation of programs.</pre>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Seattle Japanese Researchers' Community.</p>
+            </div>
+        </footer>
+    </div>
+    <script type="module" src="../main.js?v=2.2"></script>
+</body>
+
+</html>
