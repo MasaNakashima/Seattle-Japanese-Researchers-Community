@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Simple CSV Parser (reused logic from main.js)
     function parseCSV(csv) {
         const lines = csv.split('\n').filter(line => line.trim() !== '');
-        const headers = lines[0].split(',').map(h => h.trim());
+        const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
         const members = [];
 
         for (let i = 1; i < lines.length; i++) {
