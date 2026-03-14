@@ -12,12 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Maintain conversation context
     let currentChatContext = { topics: [], people: [] };
 
-    // Define the event reports to fetch
-    const eventReports = [
-        { path: 'events/2026-01-26.html', title: 'JSPS San Francisco Office Activity Introduction' },
-        { path: 'events/2026-01-31.html', title: '2026 1st Event Report: From Micro-Evolution to Macro-Waves' }
-    ];
-
     // Fetch and parse members data and reports
     async function initKnowledgeBase() {
         try {
@@ -28,8 +22,30 @@ document.addEventListener('DOMContentLoaded', () => {
             membersData = parseCSV(csvText);
 
             // 2. Fetch and Parse Reports Dynamically
-            for (const report of eventReports) {
-                const fetchUrl = isJapanese ? report.path.replace('.html', '-ja.html') : report.path;
+            let dynamicReports = [];
+            try {
+                const reportsCatalogUrl = isJapanese ? 'reports_ja.html' : 'reports.html';
+                const catalogResponse = await fetch(reportsCatalogUrl, { cache: 'no-store' });
+                if (catalogResponse.ok) {
+                    const catalogHtml = await catalogResponse.text();
+                    const catalogParser = new DOMParser();
+                    const catalogDoc = catalogParser.parseFromString(catalogHtml, 'text/html');
+                    
+                    const reportLinks = catalogDoc.querySelectorAll('.report-card a.read-more');
+                    reportLinks.forEach(link => {
+                        const href = link.getAttribute('href');
+                        const titleEl = link.parentElement.querySelector('h3');
+                        if (href && href.startsWith('events/') && titleEl) {
+                            dynamicReports.push({ path: href, title: titleEl.textContent.trim() });
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('Failed to fetch reports catalog:', err);
+            }
+
+            for (const report of dynamicReports) {
+                const fetchUrl = report.path; // already correct language based on catalog
                 try {
                     const htmlResponse = await fetch(fetchUrl, { cache: 'no-store' });
                     if (htmlResponse.ok) {
@@ -37,15 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         const parser = new DOMParser();
                         const doc = parser.parseFromString(htmlText, 'text/html');
 
-                        // Extract meaningful text blocks (paragraphs in cards or script boxes)
-                        const extractElements = doc.querySelectorAll('.report-card p, .script-section-body p, .script-box pre');
+                        // Extract meaningful text blocks (paragraphs, headers, lists, code)
+                        const extractElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, li, .script-box pre');
 
                         extractElements.forEach((el) => {
                             const text = el.textContent.trim();
-                            if (text.length > 30) { // Only index substantial text blocks
+                            if (text.length > 20) { // Only index substantial text blocks
                                 // Walk up the DOM to find the nearest section ID for linking
                                 let sectionHash = '';
-                                const parentSection = el.closest('section[id]');
+                                const parentSection = el.closest('section[id], div[id]');
                                 if (parentSection && parentSection.id) {
                                     sectionHash = '#' + parentSection.id;
                                 }
@@ -281,7 +297,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // 2. Report Snippets Search
-                const reportsMatches = reportsSearchData.filter(r => r.searchableText.includes(topic));
+                const reportsMatches = reportsSearchData.filter(r => {
+                    // Match if ALL words in the query appear in this snippet
+                    return topicWords.every(word => r.searchableText.includes(word));
+                });
                 if (reportsMatches.length > 0) {
                     matchedReports.push(...reportsMatches);
                 }
@@ -373,10 +392,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
 
                 matchedReports.forEach(report => {
-                    // Highlight the query keyword in the text
+                    // Highlight the query words in the text
                     let highlightedText = report.text;
-                    topicsToSearch.forEach(t => {
-                        const regex = new RegExp(`(${t})`, 'gi');
+                    let allWords = [];
+                    topicsToSearch.forEach(t => allWords.push(...t.split(/\s+/).filter(w => w.trim() !== '')));
+                    
+                    // Sort words by length descending so longer words match first
+                    allWords = [...new Set(allWords)].sort((a,b) => b.length - a.length);
+
+                    allWords.forEach(word => {
+                        const safeWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const regex = new RegExp(`(${safeWord})(?![^<]*>)`, 'gi'); // Prevent matching inside HTML tags
                         highlightedText = highlightedText.replace(regex, '<mark style="background: rgba(34,211,238,0.3); color: inherit; padding: 0 2px; border-radius: 2px;">$1</mark>');
                     });
 
